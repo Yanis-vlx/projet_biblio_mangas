@@ -16,6 +16,20 @@ class MangaRepository extends ServiceEntityRepository
         parent::__construct($registry, Manga::class);
     }
 
+    public function findByGenreAndOrder(?string $genre, string $order = 'ASC'): array
+    {
+        $qb = $this->createQueryBuilder('m');
+
+        if ($genre) {
+            $qb->andWhere('m.genre = :genre')
+            ->setParameter('genre', $genre);
+        }
+
+        $qb->orderBy('m.title', $order);
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Manga[] Returns an array of Manga objects
 //     */

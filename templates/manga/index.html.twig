@@ -6,10 +6,25 @@
 
 <main class="container mt-4 pt-5 text-center text-white">
     <h2>Catalogue</h2>
+        <form method="get" class="d-flex gap-2 mb-4 justify-content-center">
+            <select name="genre" class="form-select w-auto">
+                <option value="">Tous les genres</option>
+                <option value="Shonen" {% if app.request.get('genre') == 'Shonen' %}selected{% endif %}>Shonen</option>
+                <option value="Shojo" {% if app.request.get('genre') == 'Shojo' %}selected{% endif %}>Shojo</option>
+                <option value="Seinen" {% if app.request.get('genre') == 'Seinen' %}selected{% endif %}>Seinen</option>
+            </select>
+
+            <select name="order" class="form-select w-auto">
+                <option value="ASC" {% if app.request.get('order') == 'ASC' %}selected{% endif %}>A → Z</option>
+                <option value="DESC" {% if app.request.get('order') == 'DESC' %}selected{% endif %}>Z → A</option>
+            </select>
+
+            <button type="submit" class="btn btn-outline-light mt-auto">Filtrer</button>
+        </form>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
         {% for manga in mangas %}
         <div class="col m-5">
-            <div class="card w-100 mb-2">
+            <div class="card w-100 mb-2 rounded">
                 <img src={{ manga.cover }} alt={{ manga.title }} />
             </div>
                 <a class="btn btn-outline-dark mt-auto text-white w-50" href="{{ path('app_manga_show', {id: manga.id}) }}"> {{ manga.title }} </a>
