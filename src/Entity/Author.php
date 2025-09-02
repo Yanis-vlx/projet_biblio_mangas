@@ -6,6 +6,8 @@ use App\Repository\AuthorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Types;
+
 
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
@@ -19,8 +21,9 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $dateOfBirth = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_of_birth = null;
+
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateOfDeath = null;
@@ -28,10 +31,9 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $nationality = null;
 
-    #[ORM\ManyToMany(targetEntity: Manga::class, inversedBy: 'authors')]
+   #[ORM\ManyToMany(targetEntity: Manga::class, mappedBy: 'authors')]
     private Collection $mangas;
-
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -51,12 +53,12 @@ class Author
 
     public function getDateOfBirth(): ?\DateTimeImmutable
     {
-        return $this->dateOfBirth;
+        return $this->date_of_birth;
     }
 
     public function setDateOfBirth(\DateTimeImmutable $dateOfBirth): static
     {
-        $this->dateOfBirth = $dateOfBirth;
+        $this->date_of_birth = $dateOfBirth;
 
         return $this;
     }
