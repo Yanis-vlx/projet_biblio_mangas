@@ -6,6 +6,7 @@ use App\Repository\MangaRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: MangaRepository::class)]
 class Manga
@@ -18,7 +19,7 @@ class Manga
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-   #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'books', cascade: ['persist'])]
+   #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'mangas', cascade: ['persist'])]
     private Collection $authors;
 
     #[ORM\Column(length: 255)]
@@ -27,7 +28,7 @@ class Manga
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(inversedBy: 'mangas')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
@@ -36,6 +37,11 @@ class Manga
 
     #[ORM\Column]
     private ?int $pageNumber = null;
+
+    public function __construct()
+    {
+        $this->authors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -63,7 +69,7 @@ class Manga
     {
         if (!$this->authors->contains($author)) {
             $this->authors->add($author);
-            //$author->addBook($this);
+           
         }
 
         return $this;
@@ -72,7 +78,7 @@ class Manga
     public function removeAuthor(Author $author): static
     {
         if ($this->authors->removeElement($author)) {
-            //$author->removeBook($this);
+         
         }
 
         return $this;

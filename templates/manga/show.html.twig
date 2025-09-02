@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% set page_title = manga is null ? 'Livre inconnu' : manga.title %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+
+<main class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+       
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <img src={{ manga.cover }} alt={{ manga.title }} />
+            </div>
+
+            <div class="col-md-6 text-white">
+                    <div class="small mb-1">ISBN: {{ manga.isbn }}</div>
+                    <h1 class="display-5 fw-bolder">{{ page_title }}</h1>
+                    <div class="fs-5">
+                        <span>Auteur(s): 
+                            {% for author in manga.authors %}
+                                {{ author.name }}{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                Inconnu
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <div class="fs-5">
+                        <span>Éditeur: {{ manga.editor.name }}</span>
+                    </div>
+                    <div class="fs-5">
+                        <span>{{ manga.pageNumber }}{{ manga.pageNumber is not null ? ' pages' }}</span>
+                    </div>
+                    
+                    <p class="lead">{{ manga.plot }}</p>
+                    <div class="d-flex">
+                        <a href="{{ path('app_manga_index') }}">
+                            <button class="btn btn-outline-dark flex-shrink-0 text-white" type="button">
+                                Retour à la liste
+                            </button>
+                        </a>
+                    </div>
+                
+                 </div>
+            </div>
+        </div>
+</main>
+{% endblock %}
