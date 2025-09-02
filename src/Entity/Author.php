@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\AuthorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 class Author
@@ -24,6 +27,10 @@ class Author
 
     #[ORM\Column(length: 255)]
     private ?string $nationality = null;
+
+    #[ORM\ManyToMany(targetEntity: Manga::class, inversedBy: 'authors')]
+    private Collection $mangas;
+
 
     public function getId(): ?int
     {
@@ -77,4 +84,33 @@ class Author
 
         return $this;
     }
+
+    public function __construct()
+    {
+        $this->mangas = new ArrayCollection();
+    }
+
+    public function getMangas(): Collection
+    {
+        return $this->mangas;
+    }
+
+    public function addManga(Manga $manga): static
+    {
+        if (!$this->mangas->contains($manga)) {
+            $this->mangas->add($manga);
+        }
+
+        return $this;
+    }
+
+    public function removeManga(Manga $manga): static
+    {
+        $this->mangas->removeElement($manga);
+
+        return $this;
+    }
+
+
+
 }

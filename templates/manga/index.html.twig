@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue{% endblock %}
+
+{% block body %}
+
+<main class="container mt-4 pt-5 text-center text-white">
+    <h2>Catalogue</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        {% for manga in mangas %}
+        <div class="col m-5">
+            <div class="card w-100 mb-2">
+                <img src={{ manga.cover }} alt={{ manga.title }} />
+            </div>
+                <a class="btn btn-outline-dark mt-auto text-white w-50" href="{{ path('app_manga_show', {id: manga.id}) }}"> {{ manga.title }} </a>
+        </div>
+
+        {% else %}
+            <h3>Aucun mangas à afficher</h3>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}
