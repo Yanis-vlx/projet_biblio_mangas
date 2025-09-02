@@ -4,34 +4,55 @@
 
 {% block body %}
 <main class="container mt-4 pt-5 text-center text-white">
-    <h2>Bienvenue sur la page d'accueil !</h2>
 
-    <div class="container mt-4 text-start">
+    <div class="row mt-4">
+
+    <h4>Découvrez notre catalogue riche et varié, des classiques incontournables aux dernières nouveautés. Aventurez-vous dans des histoires captivantes, des héros inoubliables et des mondes qui n’attendent que vous.</h4>
+    <a class="btn btn-outline-light mt-auto w-20 fs-3 mt-3" href="/manga">Parcourir le catalogue</a>
+
+    <div class="row mt-4 text-center">
+    <div class="col-md-6">
         <h3><b>Les plus populaires</b></h3>
 
         <!-- Carrousel Bootstrap -->
-        <div id="mangaCarousel" class="carousel slide mt-3" data-bs-ride="carousel" data-bs-interval="4000">
+        <div id="mangaPopulaire" class="carousel slide mt-3" data-bs-ride="carousel" >
             <div class="carousel-inner">
                 {% for manga in mangas %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
                         <img src="{{ manga.image }}"
                              class="d-block mx-auto img-fluid rounded"
-                             style="max-height: 400px; object-fit: cover;"
+                             style="max-height: 400px;"
                              alt="{{ manga.title }}">
-                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2 mt-4">
+                        <!--<div class="carousel-item d-none d-md-block rounded p-1 text-center"
+                            style ="max-width: 80%;">
                             <h5>{{ manga.title }}</h5>
-                        </div>
+                        </div>-->
                     </div>
                 {% endfor %}
             </div>
+        </div>
+        </div>
 
-            <!-- Flèches de navigation -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#mangaCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#mangaCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+
+        <div class="col-md-6">
+        <h3><b>Les nouveautés</b></h3>
+
+        <!-- Carrousel Bootstrap -->
+        <div id="mangaNouveaute" class="carousel slide mt-3" data-bs-ride="carousel" >
+            <div class="carousel-inner">
+                {% for manga in mangas %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ manga.image }}"
+                             class="d-block mx-auto img-fluid rounded"
+                             style="max-height: 400px;"
+                             alt="{{ manga.title }}">
+                        
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+
         </div>
     </div>
 </main>

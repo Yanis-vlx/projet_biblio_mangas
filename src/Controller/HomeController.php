@@ -19,23 +19,18 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(): Response
     {
-        $response = $this->client->request(
-            'GET',
-            'https://api.jikan.moe/v4/top/manga?limit=5'
-        );
+        $response = $this->client->request('GET', 'https://api.jikan.moe/v4/top/manga?limit=5');
+    $data = $response->toArray();
+    $mangas = array_map(fn($manga) => [
+        'title' => $manga['title'],
+        'image' => $manga['images']['jpg']['large_image_url'],
+    ], $data['data']);
 
-        $data = $response->toArray();
-
-        $mangas = array_map(function ($manga) {
-            return [
-                'title' => $manga['title'],
-                'image' => $manga['images']['jpg']['large_image_url'],
-            ];
-        }, $data['data']);
-
-        return $this->render('main/main.html.twig', [
-            'mangas' => $mangas,
-        ]);
+   
+    
+    return $this->render('main/main.html.twig', [
+        'mangas' => $mangas,
+    ]);
     }
 }
 
