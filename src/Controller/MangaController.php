@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\MangaRepository;
 use App\Entity\Manga;
 use Symfony\Component\HttpFoundation\Request;
+use App\Model\SearchData;
+use App\Form\SearchType;
 
 
 final class MangaController extends AbstractController
@@ -16,14 +18,20 @@ final class MangaController extends AbstractController
     public function index(Request $request, MangaRepository $mangaRepository): Response
     {
 
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+        $form->handleRequest($request);
 
-        $genre = $request->query->get('genre'); // string ou null
-        $order = $request->query->get('order', 'ASC'); // ASC par défaut
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mangas = $mangaRepository->findBySearch($searchData);
+        } else {
+            $genre = $request->query->get('genre'); 
+            $order = $request->query->get('order', 'ASC'); 
+            $mangas = $mangaRepository->findByGenreAndOrder($genre, $order);
+        }
 
-       
-        $mangas = $mangaRepository->findByGenreAndOrder($genre, $order);
-        
         return $this->render('manga/index.html.twig', [
+            'form' => $form->createView(),
             'mangas' => $mangas,
         ]);
 

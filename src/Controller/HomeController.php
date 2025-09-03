@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Model\SearchData;
+use App\Repository\MangaRepository;
+use App\Entity\Manga;
+use Symfony\Component\HttpFoundation\Request;
+use App\Form\SearchType;
 
 final class HomeController extends AbstractController
 {
@@ -17,20 +22,28 @@ final class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_main')]
-    public function index(): Response
+    public function index(
+        MangaRepository $mangaRepository,
+        Request $request
+    ): Response
     {
-        $response = $this->client->request('GET', 'https://api.jikan.moe/v4/top/manga?limit=5');
-    $data = $response->toArray();
-    $mangas = array_map(fn($manga) => [
-        'title' => $manga['title'],
-        'image' => $manga['images']['jpg']['large_image_url'],
-    ], $data['data']);
+       $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+        $form->handleRequest($request);
 
-   
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mangas = $mangaRepository->findBySearch($searchData);
+        } else {
+            $genre = $request->query->get('genre'); 
+            $order = $request->query->get('order', 'ASC'); 
+            $mangas = $mangaRepository->findByGenreAndOrder($genre, $order);
+        }
+
     
-    return $this->render('main/main.html.twig', [
-        'mangas' => $mangas,
-    ]);
+        return $this->render('main/main.html.twig', [
+            'form' => $form->createView(),
+            'mangas' => $mangas,
+        ]);
     }
 }
 
