@@ -14,7 +14,7 @@
                 <img src={{ manga.cover }} alt={{ manga.title }} class="img-fluid" style="max-height: 500px; object-fit: cover;" />
             </div>
 
-            <div class="col-md-6 text-white">
+            <div class="col-md-6">
                     <div class="small mb-1">ISBN: {{ manga.isbn }}</div>
                     <h1 class="display-5 fw-bolder">{{ page_title }}</h1>
                     <div class="fs-5">
@@ -34,10 +34,16 @@
                     </div>
                     
                     <p class="lead">{{ manga.plot }}</p>
-                    <div class="d-flex">
+                    <span>Prix : {{ manga.prix }}{{ manga.pageNumber is not null ? ' €' }}</span>
+                    <div class="d-flex justify-content-evenly">
                         <a href="{{ path('app_manga_index') }}">
-                            <button class="btn btn-outline-dark flex-shrink-0 text-white" type="button">
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
                                 Retour à la liste
+                            </button>
+                        </a>
+                        <a href="{{ path('cart_add', {id: manga.id}) }}">
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                Ajouter au panier
                             </button>
                         </a>
                     </div>

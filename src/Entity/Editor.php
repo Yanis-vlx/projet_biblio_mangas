@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EditorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: EditorRepository::class)]
 class Editor
@@ -15,6 +16,10 @@ class Editor
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\OneToMany(mappedBy: 'editor', targetEntity: Manga::class)]
+    private Collection $mangas;
+
 
     public function getId(): ?int
     {
@@ -29,6 +34,19 @@ class Editor
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+   
+    public function getMangas()
+    {
+        return $this->mangas;
+    }
+
+    public function setMangas($mangas)
+    {
+        $this->mangas = $mangas;
 
         return $this;
     }
