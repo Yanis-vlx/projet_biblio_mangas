@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Manga;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Model\SearchData;
+
 
 /**
  * @extends ServiceEntityRepository<Manga>
@@ -30,28 +32,15 @@ class MangaRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-//    /**
-//     * @return Manga[] Returns an array of Manga objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findBySearch(SearchData $searchData): array
+    {
+        $qb = $this->createQueryBuilder('m');
 
-//    public function findOneBySomeField($value): ?Manga
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!empty($searchData->q)) {
+        $qb->andWhere('m.title LIKE :q')
+           ->setParameter('q', '%' . $searchData->q . '%');
+            }
+
+        return $qb->getQuery()->getResult();
+    }
 }

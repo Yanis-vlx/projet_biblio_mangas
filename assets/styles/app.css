@@ -3,10 +3,32 @@
 body, html {
   height: 100%; 
   margin: 0;
-  padding: 0;     
+  padding: 0;
+  overflow-x: hidden;     
 }
 
 body {
-    background: repeating-linear-gradient(to bottom, #22223B, #4A4E69 50%, #9A8C98 100%);
-    background-size: auto 200%;
+    background: white;
 }
+
+.manga-section_gris {
+    position:relative;
+    background-image: url('/images/fond_gris_2.png');
+    background-size: cover;
+    background-position: center;
+    padding: 70px 70px;
+}
+
+.manga_bg_2 {
+  background-image: url('/images/fond_trait.jpg');
+  background-size: cover;   
+  background-position: center;
+  background-repeat: no-repeat;
+     
+}
+
+.btn-sharp {
+  border-radius: 0;
+  border-width: 3px;
+}
+
