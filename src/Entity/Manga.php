@@ -42,6 +42,9 @@ class Manga
     #[ORM\Column(enumType: MangaGenre::class)]
     private ?MangaGenre $genre = null;
 
+    #[ORM\Column]
+    private ?string $Prix = null;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -157,6 +160,18 @@ class Manga
     public function setGenre($genre)
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->Prix;
+    }
+
+    public function setPrix(float $Prix): static
+    {
+        $this->Prix = $Prix;
 
         return $this;
     }
