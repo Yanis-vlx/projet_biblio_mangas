@@ -4,8 +4,12 @@
 
 {% block body %}
 
-<main class="container mt-4 pt-5 text-center text-white">
+<main class="container mt-4 pt-5 text-center text-black">
     <h2>Catalogue</h2>
+        {{ form_start(form, { 'attr': {'class': 'd-flex'} }) }}
+            {{ form_widget(form.q, { 'attr': {'class': 'form-control me-2 border border-dark', 'placeholder': 'Rechercher...'} }) }}
+                <button type="submit" class="btn btn-outline-dark">🔍</button>
+        {{ form_end(form) }}
         <form method="get" class="d-flex gap-2 mb-4 justify-content-center">
             <select name="genre" class="form-select w-auto">
                 <option value="">Tous les genres</option>
@@ -19,7 +23,7 @@
                 <option value="DESC" {% if app.request.get('order') == 'DESC' %}selected{% endif %}>Z → A</option>
             </select>
 
-            <button type="submit" class="btn btn-outline-light mt-auto">Filtrer</button>
+            <button type="submit" class="btn btn-outline-dark mt-auto">Filtrer</button>
         </form>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
         {% for manga in mangas %}
@@ -27,7 +31,7 @@
             <div class="card w-100 mb-2 rounded">
                 <img src={{ manga.cover }} alt={{ manga.title }} />
             </div>
-                <a class="btn btn-outline-dark mt-auto text-white w-50" href="{{ path('app_manga_show', {id: manga.id}) }}"> {{ manga.title }} </a>
+                <a class="btn btn-outline-dark mt-auto text-black w-50" href="{{ path('app_manga_show', {id: manga.id}) }}"> {{ manga.title }} </a>
         </div>
 
         {% else %}

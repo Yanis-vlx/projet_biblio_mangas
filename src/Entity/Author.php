@@ -28,7 +28,7 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $nationality = null;
 
-    #[ORM\ManyToMany(targetEntity: Manga::class, inversedBy: 'authors')]
+    #[ORM\ManyToMany(targetEntity: Manga::class, mappedBy: 'authors')]
     private Collection $mangas;
 
 
