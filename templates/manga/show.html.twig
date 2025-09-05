@@ -41,11 +41,12 @@
                                 Retour à la liste
                             </button>
                         </a>
-                        <a href="{{ path('cart_add', {id: manga.id}) }}">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                Ajouter au panier
-                            </button>
-                        </a>
+                        <button 
+                            class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn" 
+                            type="button"
+                            onclick="this.innerText='✔ Ajouté'; this.classList.remove('btn-outline-dark'); this.classList.add('btn-dark'); this.disabled=true;">
+                            Ajouter au panier
+                        </button>
                     </div>
                 
                  </div>

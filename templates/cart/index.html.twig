@@ -3,53 +3,71 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
-        <main class="container mt-5 p-3 text-center text-black">
-            <section class="row">
-                <div class="col-12">
-                    <h1 class="border-bottom border-dark border-2 p-2">Panier</h1>
-                    <table class="table mt-3">
-                        <thead>
-                            <tr>
-                                <th>Manga</th>
-                                <th>Prix unitaire</th>
-                                <th>Quantité</th>
-                                <th>Total</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                            <tbody>
-                                {% for element in data %}
+<main class="container mt-5 p-3">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
-                                    <tr>
-                                        <td>{{ element.manga.title }}</td>
-                                        <td>{{ element.manga.prix }} €</td>
-                                        <td>{{ element.quantity }}</td>
-                                        <td>{{ element.quantity * element.manga.prix }} €</td>
-                                        <td>
-                                            <a href="{{ path('cart_add', {id: element.manga.id })}}" class="btn btn-success">+</a>
-                                            <a href="{{ path('cart_remove', {id: element.manga.id})}}" class="btn btn-warning">-</a>
-                                            <a href="{{ path('cart_delete', {id: element.manga.id})}}" class="btn btn-danger">🗑️</a>
-                                        </td>
-                                    </tr>
-                                {% else %}
+    <section class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <h1 class="border-bottom border-dark border-2 pb-2 mb-4">Panier</h1>
 
-                                    <tr>
-                                        <td colspan="5">Votre panier est vide</td>
-                                    </tr>
+            {% if data is not empty %}
+                <div class="list-group">
+                    {% for element in data %}
+                        <div class="list-group-item d-flex align-items-center justify-content-between py-3">
+                           
+                            <div class="d-flex align-items-center" style="width:140px;">
+                                <img src="{{ element.manga.cover }}" 
+                                     alt="{{ element.manga.title }}" 
+                                     class="rounded me-3" 
+                                     style="height: 70px; object-fit: cover;">
+                                <div>
+                                    <p class="mb-1">{{ element.manga.title }}</p>
+                                    <small class="text-muted">Unité: {{ element.manga.prix }} €</small>
+                                </div>
+                            </div>
 
-                                {% endfor %}
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="3">Total</td>
-                                    <td>{{ total }} €</td>
-                                    <td> 
-                                        
-                                    </td>
-                                </tr>
-                            </tfoot>
-                    </table>
+                        
+                            <div class="d-flex align-items-center">
+                                <a href="{{ path('cart_remove', {id: element.manga.id}) }}" class="btn btn-sm">-</a>
+                                <span class="mx-2">{{ element.quantity }}</span>
+                                <a href="{{ path('cart_add', {id: element.manga.id}) }}" class="btn btn-sm">+</a>
+                            </div>
+
+                      
+                            <div class="fw-bold">
+                                {{ element.quantity * element.manga.prix }} €
+                            </div>
+
+                           
+                            <div>
+                                <a href="{{ path('cart_delete', {id: element.manga.id}) }}" class="btn btn-outline btn-sm">×</a>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            </section>
-        </main> 
+
+                
+                <div class="d-flex justify-content-between align-items-center mt-4 p-3 border-top">
+                    <h4>Total : {{ total }} €</h4>
+                    <a class="btn btn-dark" href="/pay">Passer au paiement</a>
+                </div>
+            {% else %}
+                <p class="text-center">Votre panier est vide</p>
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+<script>
+    setTimeout(() => {
+        const alert = document.querySelector('.alert');
+        if (alert) alert.remove();
+    }, 3000);
+</script>
 {% endblock %}
