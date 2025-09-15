@@ -10,11 +10,8 @@ use App\Entity\Manga;
 use Symfony\Component\HttpFoundation\Request;
 use App\Model\SearchData;
 use App\Form\SearchType;
-<<<<<<< HEAD
-=======
 use App\Form\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
->>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
 
 
 final class MangaController extends AbstractController
@@ -50,8 +47,6 @@ final class MangaController extends AbstractController
             'manga' => $manga,
         ]);
     }
-<<<<<<< HEAD
-=======
 
      #[Route('admin/manga/new', name: 'app_admin_manga_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
@@ -71,5 +66,5 @@ final class MangaController extends AbstractController
             'form' => $form,
         ]);
     }
->>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
+
 }

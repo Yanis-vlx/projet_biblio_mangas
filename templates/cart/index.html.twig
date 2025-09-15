@@ -3,57 +3,7 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
-        <main class="container mt-5 p-3 text-center text-black">
-            <section class="row">
-                <div class="col-12">
-                    <h1 class="border-bottom border-dark border-2 p-2">Panier</h1>
-                    <table class="table mt-3">
-                        <thead>
-                            <tr>
-                                <th>Manga</th>
-                                <th>Prix unitaire</th>
-                                <th>Quantité</th>
-                                <th>Total</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                            <tbody>
-                                {% for element in data %}
 
-                                    <tr>
-                                        <td>{{ element.manga.title }}</td>
-                                        <td>{{ element.manga.prix }} €</td>
-                                        <td>{{ element.quantity }}</td>
-                                        <td>{{ element.quantity * element.manga.prix }} €</td>
-                                        <td>
-                                            <a href="{{ path('cart_add', {id: element.manga.id })}}" class="btn btn-success">+</a>
-                                            <a href="{{ path('cart_remove', {id: element.manga.id})}}" class="btn btn-warning">-</a>
-                                            <a href="{{ path('cart_delete', {id: element.manga.id})}}" class="btn btn-danger">🗑️</a>
-                                        </td>
-                                    </tr>
-                                {% else %}
-
-                                    <tr>
-                                        <td colspan="5">Votre panier est vide</td>
-                                    </tr>
-
-                                {% endfor %}
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="3">Total</td>
-                                    <td>{{ total }} €</td>
-                                    <td> 
-                                        
-                                    </td>
-                                </tr>
-                            </tfoot>
-                    </table>
-                </div>
-            </section>
-        </main> 
-=======
 <main class="container mt-5 p-3">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
@@ -122,5 +72,5 @@
         if (alert) alert.remove();
     }, 3000);
 </script>
->>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
+
 {% endblock %}
