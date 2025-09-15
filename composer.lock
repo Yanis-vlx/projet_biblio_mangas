@@ -5,10 +5,7 @@
         "This file is @generated automatically"
     ],
 
-    "content-hash": "a00032c1331289e51e7fb10c406dd2d2",
-
     "content-hash": "bf01255c418c1e5c10f9cc4cc45cb92d",
->>>>>>> Stashed changes
     "packages": [
         {
             "name": "composer/semver",
