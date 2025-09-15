@@ -10,6 +10,8 @@ use App\Entity\Manga;
 use Symfony\Component\HttpFoundation\Request;
 use App\Model\SearchData;
 use App\Form\SearchType;
+use App\Form\MangaType;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 final class MangaController extends AbstractController
@@ -43,6 +45,25 @@ final class MangaController extends AbstractController
     {
         return $this->render('manga/show.html.twig', [
             'manga' => $manga,
+        ]);
+    }
+
+     #[Route('admin/manga/new', name: 'app_admin_manga_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $manager): Response
+    {
+        $author = new Manga();
+        $form = $this->createForm(MangaType::class, $author);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($author);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_admin_manga_new');
+        }
+        
+        return $this->render('manga/new.html.twig', [
+            'form' => $form,
         ]);
     }
 }
