@@ -8,7 +8,12 @@ body, html {
 }
 
 body {
+<<<<<<< HEAD
     background: lightgray;
+=======
+    background-image: url('/images/fond_2.jpg');
+    background-size: cover;
+>>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
 }
 
 .manga-section_gris {
@@ -16,7 +21,11 @@ body {
     background-image: url('/images/fond_gris_2.png');
     background-size: cover;
     background-position: center;
+<<<<<<< HEAD
     padding: 70px 70px;
+=======
+    padding: 60px 60px;
+>>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
 }
 
 .manga_bg_2 {
@@ -32,3 +41,15 @@ body {
   border-width: 3px;
 }
 
+<<<<<<< HEAD
+=======
+.btn img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.btn img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+>>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
