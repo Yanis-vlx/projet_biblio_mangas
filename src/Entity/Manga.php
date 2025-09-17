@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Enum\MangaGenre;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MangaRepository::class)]
 class Manga
@@ -17,15 +18,21 @@ class Manga
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-   #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'mangas', cascade: ['persist'])]
+   #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'mangas')]
     private Collection $authors;
 
+    #[Assert\Isbn(type: 'isbn13')]
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $isbn = null;
 
+    #[Assert\Url()]
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
@@ -33,15 +40,20 @@ class Manga
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
+    #[Assert\Length(min: 20)]
+    #[Assert\NotBlank()]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $Plot = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column]
     private ?int $pageNumber = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(enumType: MangaGenre::class)]
     private ?MangaGenre $genre = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column]
     private ?string $Prix = null;
 

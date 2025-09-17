@@ -11,11 +11,7 @@
        
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6 rounded">
-<<<<<<< HEAD
-                <img src={{ manga.cover }} alt={{ manga.title }} class="img-fluid" style="max-height: 500px; object-fit: cover;" />
-=======
                 <img src={{ manga.cover }} alt={{ manga.title }} class="img-fluid rounded" style="height: 650px; object-fit: cover;" />
->>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
             </div>
 
             <div class="col-md-6">
@@ -39,26 +35,23 @@
                     
                     <p class="lead">{{ manga.plot }}</p>
                     <span>Prix : {{ manga.prix }}{{ manga.pageNumber is not null ? ' €' }}</span>
-<<<<<<< HEAD
-                    <div class="d-flex justify-content-evenly">
-=======
-                    <div class="d-flex justify-content-start mt-3 gap-3">
->>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
-                        <a href="{{ path('app_manga_index') }}">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                Retour à la liste
-                            </button>
-                        </a>
-<<<<<<< HEAD
-                        <a href="{{ path('cart_add', {id: manga.id}) }}">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                Ajouter au panier
-                            </button>
-                        </a>
-=======
+                   <div class="d-flex justify-content-start mt-3 gap-3">
+                        {% if from == 'admin' %}
+                            <a href="{{ path('app_manga_list') }}">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                    Retour à la liste
+                                </button>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_manga_index') }}">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                    Retour au catalogue
+                                </button>
+                            </a>
+                        {% endif %}
+                        
                         <a href="{{ path('cart_add', {id: manga.id}) }}"
-                                class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
->>>>>>> 7725b0c3ef619896f07c7ee44ee1ac2e401a68f0
+                        class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
                     </div>
                 
                  </div>

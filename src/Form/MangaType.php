@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Enum\MangaGenre;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class MangaType extends AbstractType
 {
@@ -34,8 +36,12 @@ class MangaType extends AbstractType
             ->add('pageNumber', NumberType::class, [
                 'label' => 'Nombre de pages'
             ])
-            ->add('genre', TextType::class, [
+            ->add('genre', ChoiceType::class, [
                 'label' => 'Genre',
+                'choices' => MangaGenre::cases(), 
+                'choice_label' => fn (MangaGenre $genre) => $genre->value, 
+                'choice_value' => fn (?MangaGenre $genre) => $genre?->value, 
+                'placeholder' => 'Choisir un genre',
             ])
             ->add('Prix', TextType::class, [
                 'label' => 'Prix'
@@ -44,12 +50,12 @@ class MangaType extends AbstractType
                 'class' => Author::class,
                 'choice_label' => 'name',
                 'multiple' => true,
-                'by_reference' => false
+                'by_reference' => false,
             ])
             ->add('editor', EntityType::class, [
                 'class' => Editor::class,
                 'choice_label' => 'name',
-                'by_reference' => false
+                'placeholder' => 'Choisir un éditeur',
             ])
         ;
     }
