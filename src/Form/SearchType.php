@@ -8,15 +8,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Model\SearchData;
 
+use App\Entity\Manga;
+
+
 class SearchType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder 
-            ->add('q', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Recherche...'
-                ]
-                ]);
+
+       $builder->add('q', TextType::class, [
+            'attr' => [
+                'placeholder' => 'Recherche...',
+                'id' => 'search_q', 
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver){

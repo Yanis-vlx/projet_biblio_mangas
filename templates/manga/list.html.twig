@@ -46,15 +46,16 @@
                     
                 </div>
                 <div class="btn-group" role="group">
-                    <a href="{{ path('app_manga_show', {id: manga.id, from: 'admin'}) }}" class="btn btn-outline-primary btn-sm">Détails</a>
+                    <a href="{{ path('app_manga_show', {id: manga.id, from: 'admin'}) }}" class="btn btn-outline-dark btn-sm">Détails</a>
 
-                    <a href="{{ path('app_admin_manga_edit', {id: manga.id}) }}" class="btn btn-outline-primary btn-sm">Modifier</a>
+                    <a href="{{ path('app_admin_manga_edit', {id: manga.id}) }}" class="btn btn-outline-dark btn-sm">Modifier</a>
 
                     <form method="post" action="{{ path('app_admin_manga_delete', {id: manga.id}) }}" onsubmit="return confirm('Supprimer ce manga ?');" style="display:inline;">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ manga.id) }}">
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
+                        <button type="submit" class="btn btn-outline-dark btn-sm rounded-start-0">Supprimer</button>
                     </form>
                 </div>
+
             </li>
         {% endfor %}
     </ul>
