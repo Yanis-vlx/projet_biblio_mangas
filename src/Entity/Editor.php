@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EditorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EditorRepository::class)]
 class Editor
@@ -14,6 +15,7 @@ class Editor
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

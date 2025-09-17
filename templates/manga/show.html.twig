@@ -35,14 +35,23 @@
                     
                     <p class="lead">{{ manga.plot }}</p>
                     <span>Prix : {{ manga.prix }}{{ manga.pageNumber is not null ? ' €' }}</span>
-                    <div class="d-flex justify-content-start mt-3 gap-3">
-                        <a href="{{ path('app_manga_index') }}">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                Retour à la liste
-                            </button>
-                        </a>
+                   <div class="d-flex justify-content-start mt-3 gap-3">
+                        {% if from == 'admin' %}
+                            <a href="{{ path('app_manga_list') }}">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                    Retour à la liste
+                                </button>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_manga_index') }}">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                    Retour au catalogue
+                                </button>
+                            </a>
+                        {% endif %}
+                        
                         <a href="{{ path('cart_add', {id: manga.id}) }}"
-                                class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
+                        class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
                     </div>
                 
                  </div>
