@@ -29,19 +29,17 @@
 
     </div>
 
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-        {% for manga in mangas %}
-        <div class="col m-5">
-            <a class="btn mt-auto text-black w-70" href="{{ path('app_manga_show', {id: manga.id, from: 'catalogue'}) }}">
-                    <img class="rounded" src={{ manga.cover }} alt={{ manga.title }} />
-            </a>
-
+        <div class="row row-cols-4 justify-content-center">
+            {% for manga in mangas %}
+                <div class="col m-4">
+                    <a class="btn btn-border-none" href="{{ path('app_manga_show', {id: manga.id, from: 'catalogue'}) }}">
+                        <img class="rounded" style="height: 300px; width: 200px;" src="{{ manga.cover }}" alt="{{ manga.title }}" />
+                    </a>
+                </div>
+            {% else %}
+                <h3>Aucun mangas à afficher</h3>
+            {% endfor %}
         </div>
-
-        {% else %}
-            <h3>Aucun mangas à afficher</h3>
-        {% endfor %}
-    </div>
 </main>
 
 {% endblock %}

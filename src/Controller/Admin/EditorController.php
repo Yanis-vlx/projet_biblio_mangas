@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Editor;
 use App\Form\EditorType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/admin/editor')]
@@ -22,6 +23,7 @@ final class EditorController extends AbstractController
         ]);
     }
 
+    #[isGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_admin_editor_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {

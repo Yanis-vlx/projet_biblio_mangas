@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Author;
 use App\Form\AuthorType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/author')]
 final class AuthorController extends AbstractController
@@ -21,6 +22,7 @@ final class AuthorController extends AbstractController
         ]);
     }
 
+    #[isGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_admin_author_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
