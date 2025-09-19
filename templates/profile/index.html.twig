@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue {{ user.userIdentifier }} </h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <p>Vous êtes administrateur, voici vos outils :</p>
+        <!-- Contenu spécifique admin -->
+    {% else %}
+        <p>Vous êtes un utilisateur simple.</p>
+        <!-- Contenu spécifique user -->
+    {% endif %}
+{% endblock %}
