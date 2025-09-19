@@ -22,8 +22,11 @@
         "symfony/framework-bundle": "7.3.*",
         "symfony/runtime": "7.3.*",
         "symfony/security-bundle": "7.3.*",
+        "symfony/stimulus-bundle": "^2.30",
         "symfony/translation": "7.3.*",
         "symfony/twig-bundle": "7.3.*",
+        "symfony/ux-autocomplete": "^2.30",
+        "symfony/ux-turbo": "^2.30",
         "symfony/validator": "7.3.*",
         "symfony/yaml": "7.3.*"
     },

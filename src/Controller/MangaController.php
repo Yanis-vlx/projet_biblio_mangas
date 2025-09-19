@@ -12,7 +12,7 @@ use App\Model\SearchData;
 use App\Form\SearchType;
 use App\Form\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Editor;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class MangaController extends AbstractController
 {
@@ -40,11 +40,12 @@ final class MangaController extends AbstractController
         
     }
 
+    #[isGranted('ROLE_ADMIN')]
     #[Route('/manga/list', name: 'app_manga_list', methods: ['GET'])]
     public function list(MangaRepository $mangaRepository): Response
     {
         $mangas = $mangaRepository->findAll();
-        $form = $this->createForm(SearchType::class); // ajoute le form pour Twig
+        $form = $this->createForm(SearchType::class);
         return $this->render('manga/list.html.twig', [
             'mangas' => $mangas,
             'form' => $form->createView(),
@@ -56,7 +57,7 @@ final class MangaController extends AbstractController
     #[Route('/manga/{id}', name: 'app_manga_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(?Manga $manga, Request $request): Response
     {
-        $from = $request->query->get('from', 'catalogue'); // par défaut 'catalogue'
+        $from = $request->query->get('from', 'catalogue'); 
     
         return $this->render('manga/show.html.twig', [
             'manga' => $manga,
@@ -64,6 +65,7 @@ final class MangaController extends AbstractController
         ]);
     }
 
+    #[isGranted('ROLE_ADMIN')]
     #[Route('admin/manga/{id}/edit', name: 'app_admin_manga_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     #[Route('admin/manga/new', name: 'app_admin_manga_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager, int $id = null): Response

@@ -36,7 +36,7 @@ final class PayController extends AbstractController
                         'product_data' => [
                             'name' => $manga->getTitle(),
                         ],
-                        'unit_amount' => $manga->getPrix() * 100, 
+                        'unit_amount' => (int) round($manga->getPrix() * 100), 
                     ],
                     'quantity' => $quantity, 
                 ];
@@ -50,7 +50,6 @@ final class PayController extends AbstractController
 
         // Configurer Stripe
         Stripe::setApiKey($this->clientSecret);
-        Stripe::setApiVersion('2020-08-27');
 
         // Créer la session de paiement
         $checkoutSession = StripeSession::create([
