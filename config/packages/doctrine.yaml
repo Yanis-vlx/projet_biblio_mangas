@@ -26,6 +26,10 @@ doctrine:
                 alias: App
         controller_resolver:
             auto_mapping: false
+        dql:
+            numeric_functions:
+                RAND: DoctrineExtensions\Query\Mysql\Rand
+                
 
 when@test:
     doctrine:
@@ -44,7 +48,7 @@ when@prod:
             result_cache_driver:
                 type: pool
                 pool: doctrine.result_cache_pool
-
+            
     framework:
         cache:
             pools:

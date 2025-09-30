@@ -43,4 +43,14 @@ class MangaRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findRandomMangas(int $limit = 6): array
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('RAND() as HIDDEN rand')
+            ->orderBy('rand')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

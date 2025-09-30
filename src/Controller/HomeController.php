@@ -39,10 +39,12 @@ final class HomeController extends AbstractController
             $mangas = $mangaRepository->findByGenreAndOrder($genre, $order);
         }
 
+        $randomMangas = $mangaRepository->findRandomMangas(6);
     
         return $this->render('main/main.html.twig', [
             'form' => $form->createView(),
             'mangas' => $mangas,
+            'randomMangas' => $randomMangas,
         ]);
     }
 }

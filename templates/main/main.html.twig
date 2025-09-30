@@ -4,120 +4,104 @@
 
 {% block body %}
 
-
-
 {# --- Section texte avec fond gris --- #}
 <div class="mt-4 pt-5 pb-3 text-center text-black border-bottom border-dark border-2">
-{% if app.user %}
-    <div class="alert alert-success">
-        Bonjour {{ app.user.email }}, vous êtes connecté avec succès !
-    </div>
-{% endif %}
+    {% if app.user %}
+        <div class="alert alert-success">
+            Bonjour {{ app.user.email }}, vous êtes connecté avec succès !
+        </div>
+    {% endif %}
 
     <div class="row align-items-center">
-
-        <div class="col-md-4 manga-section_gris position-relative border border-dark border-3">
+        <div class="col-12 col-md-4 position-relative manga-section_gris mb-4 mb-md-0 border border-dark border-3">
             <div class="overlay p-3 text-black bg-white border border-dark border-3">
-                <h4>Bienvenue dans votre univers manga ! </h4>
+                <h4>Bienvenue dans votre univers manga !</h4>
                 <p>Que vous soyez passionné de shōnen plein d’action, amateur de shōjo émouvants ou collectionneur de grandes sagas, notre boutique vous propose un vaste choix de titres pour tous les goûts. Découvrez les nouveautés, retrouvez les classiques incontournables et complétez votre collection en toute simplicité.</p>
             </div>
-            <img src="/images/emoticone_1.png" 
-                 class="position-absolute" 
-                 style="top: 300px; left: 10px; width: 90px;">
-             <img src="/images/icone_2.png" 
-                 class="position-absolute" 
-                 style="top: 0px; left: 320px; width: 200px;">
+
+            {# Icônes décoratives seulement sur desktop #}
+            <img src="/images/emoticone_1.png" class="d-none d-lg-block position-absolute" style="top: 300px; left: 10px; width: 90px;">
+            <img src="/images/icone_2.png" class="d-none d-lg-block position-absolute" style="top: 0px; left: 320px; width: 200px;">
         </div>
 
-        <div class="col-md-8"> 
-
-            <div id="carouselBackground" class="carousel slide border border-dark border-3 rounded" data-bs-ride="carousel"> 
-                <div class="carousel-inner"> 
-                <div class="carousel-item active"> 
-                    <img src="/images/img_1.png" 
-                        class="d-block w-100" 
-                        style="height: 400px; object-fit: cover;" 
-                        alt="img_1"> 
-                    </div> 
-                    <div class="carousel-item"> 
-                    <img src="/images/img_2.png" 
-                        class="d-block w-100" 
-                        style="height: 400px; object-fit: cover;" 
-                        alt="img_2"> 
-                        </div> 
-                        <div class="carousel-item"> 
-                            <img 
-                                src="/images/img_3.png" 
-                                class="d-block w-100" 
-                                style="height: 400px; object-fit: cover;" 
-                                alt="img_3"> 
-                            </div> 
-                            <div class="carousel-item"> 
-                            <img src="/images/img_4.png" 
-                                class="d-block w-100" 
-                                style="height: 400px; object-fit: cover;" 
-                                alt="img_4"> 
-                            </div> 
-                                <div class="carousel-item"> 
-                                    <img src="/images/img_5.png" 
-                                        class="d-block w-100" 
-                                        style="height: 400px; object-fit: cover;" 
-                                        alt="img_5"> 
-                                        </div> 
-                                    <div class="carousel-item"> 
-                                        <img src="/images/img_6.png" 
-                                            class="d-block w-100" 
-                                            style="height: 400px; object-fit: cover;" 
-                                            alt="img_6"> 
-                                        </div> 
-                                    </div> 
-                                </div> 
-                            </div>
+        <div class="col-12 col-md-8">
+            <div id="carouselBackground" class="carousel slide border border-dark border-3 rounded" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for i in 1..6 %}
+                        <div class="carousel-item {% if i == 1 %}active{% endif %}">
+                            <img src="/images/img_{{ i }}.png" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="img_{{ i }}">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-{# --- Section manga full-width avec background --- #}
-<div class="manga_bg_2 py-5" style="min-height: 80vh;">
+{# --- Section Nouveautés --- #}
+<div class="container my-5 text-center">
+    <img 
+        class="img-fluid rounded border border-dark border-2 mb-4" 
+        src="/images/new.png" 
+        alt="Nouveautés"
+        style="max-width: 200px;"
+    >
+
+    <div class="row justify-content-center">
+        {% for manga in randomMangas %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
+                <a class="btn btn-border-none" href="{{ path('app_manga_show', {id: manga.id, from: 'catalogue'}) }}">
+                    <img 
+                        class="rounded border border-dark w-100" 
+                        style="height: 300px; object-fit: cover;" 
+                        src="{{ manga.cover }}" 
+                        alt="{{ manga.title }}" 
+                    />
+                </a>
+            </div>
+        {% else %}
+            <p class="text-center">Pas de nouveautés</p>
+        {% endfor %}
+    </div>
+</div>
+
+{# --- Section Manga Populaire / Catalogue --- #}
+<div class="manga_bg_2 py-5 border-top border-dark border-3" style="min-height: 80vh;">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6 mb-4 mb-md-0">
                 <div id="mangaPopulaire" class="carousel slide mt-3" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         {% for manga in mangas %}
                             <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                <img src="{{ manga.cover }}"
-                                     class="d-block mx-auto img-fluid rounded"
-                                     style="max-height: 400px;"
-                                     alt="{{ manga.title }}">
+                                <img src="{{ manga.cover }}" class="d-block mx-auto img-fluid rounded" style="max-height: 350px; object-fit: cover;" alt="{{ manga.title }}">
                             </div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <div class="position-relative col-md-6 p-2 border border-black border-3 d-flex flex-column bg-white">
-                <h5 class="mb-4 p-5 text-black text-center border border-black border-3 rounded-circle">
+            <div class="col-12 col-md-6 position-relative p-2 border border-black border-3 d-flex flex-column bg-white">
+                <h5 class="mb-4 p-3 p-md-5 text-black text-center border border-black border-3 rounded-circle">
                     Découvrez notre catalogue riche et varié, des classiques incontournables aux dernières nouveautés. Aventurez-vous dans des histoires captivantes, des héros inoubliables et des mondes qui n’attendent que vous.
                 </h5>
-                <img src="/images/icone_5.png" 
-                            class="position-absolute" 
-                            style="top: -100px; left: -150px; width: 200px;">
-                <img src="/images/icone_4.png" 
-                            class="position-absolute" 
-                            style="top: 160px; left: 260px; width: 100px;">
-                    <a class="btn btn-sharp btn-outline-dark ms-auto w-50 fs-5 mt-3" href="/manga">Parcourir le catalogue</a>
-                <img src="/images/icone_3.png" 
-                            class="position-absolute" 
-                            style="top: 230px; left: -100px; width: 150px;">
+
+                {# Icônes décoratives seulement sur desktop #}
+                <img src="/images/icone_5.png" class="d-none d-lg-block position-absolute" style="top: -100px; left: -150px; width: 200px;">
+                <img src="/images/icone_4.png" class="d-none d-lg-block position-absolute" style="top: 160px; left: 260px; width: 100px;">
+                <img src="/images/icone_3.png" class="d-none d-lg-block position-absolute" style="top: 230px; left: -100px; width: 150px;">
+
+                <a class="btn btn-sharp btn-outline-dark ms-auto w-50 fs-5 mt-3" href="/manga">Parcourir le catalogue</a>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     setTimeout(() => {
         const alert = document.querySelector('.alert-success');
         if (alert) alert.remove();
-    }, 5000); // disparaît après 5 secondes
+    }, 5000);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

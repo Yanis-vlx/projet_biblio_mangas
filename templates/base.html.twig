@@ -16,18 +16,27 @@
             <div class="container px-4">
                 <a class="navbar-brand" href="/"><img src="/images/logo_2.png" height="55"></a>
 
+                {# Bouton hamburger pour mobile #}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto align-items-center">
-                        
-                        <li class="nav-item"><a class="nav-link" href="/manga">Catalogue</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/cart">Panier</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Se connecter</a></li>
-                       
-                        
+                        <li class="nav-item"><a class="btn btn-border-none nav-link" href="/manga"><img class="rounded" style="height: 30px;" src="{{ asset('images/catalogue.png') }}"></a></li>
+                        <li class="nav-item"><a class="btn btn-border-none nav-link" href="/cart"><img class="rounded" style="height: 30px;" src="{{ asset('images/cart.png') }}"></a></li>
+                        {% if app.user %}
+                            <li class="nav-item"><a class="btn btn-border-none nav-link" href="/profile"><img class="rounded" style="height: 30px;" src="{{ asset('images/profil_2.png') }}"></a></li>
+                            <li class="nav-item"><a class="btn btn-border-none nav-link" href="{{ path('app_logout') }}"><img class="rounded" style="height: 30px;" src="{{ asset('images/deconnect.png') }}"></a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="btn btn-border-none nav-link" href="{{ path('app_login') }}"><img class="rounded" style="height: 30px;" src="{{ asset('images/profile.png') }}"></a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </nav>
+
 
         {% block body %}{% endblock %}
     </body>
