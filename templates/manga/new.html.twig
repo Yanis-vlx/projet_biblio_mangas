@@ -1,17 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% set action = app.current_route == 'app_admin_author_new' ? 'Ajout' : 'Édition' %}
+{% set action = app.current_route == 'app_admin_manga_new' ? 'Ajout' : 'Édition' %}
 
-{% block title %}{{ action }} d'auteur{% endblock %}
+{% block title %}{{ action }} d'un manga{% endblock %}
 
 {% block body %}
+<div class="pt-4 mt-5 w-50 m-auto">
+    <h1>{{ manga is defined and manga.id ? 'Modifier un manga' : 'Ajouter un manga' }}</h1>
 
-    <div class="pt-4 mt-5 w-50 m-auto">
-    
-        
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-        {{ form_end(form) }}
+    {{ form_start(form) }}
+
+        {{ form_row(form.title) }}
+        {{ form_row(form.isbn) }}
+
+        {# Champ couverture avec aperçu dynamique #}
+       <div class="mb-3">
+            {{ form_label(form.cover) }}
+            <div class="d-flex align-items-center">
+                <img id="coverPreview"
+                    src="{{ form.cover.vars.value }}"
+                    alt="Aperçu couverture"
+                    class="me-3 rounded"
+                    style="max-width:100px; height:auto; {{ form.cover.vars.value ? '' : 'display:none;' }}">
+
+                {{ form_widget(form.cover, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            {{ form_errors(form.cover) }}
+        </div>
+
+
+        {{ form_row(form.Plot) }}
+        {{ form_row(form.pageNumber) }}
+        {{ form_row(form.genre) }}
+        {{ form_row(form.Prix) }}
+        {{ form_row(form.authors) }}
+        {{ form_row(form.editor) }}
+
+        <button class="btn btn-primary">
+            {{ manga is defined and manga.id ? 'Mettre à jour' : 'Créer' }}
+        </button>
+
+    {{ form_end(form) }}
     </div>
+
+    <script>
+        const input = document.getElementById("{{ form.cover.vars.id }}");
+        const preview = document.getElementById("coverPreview");
+
+        input.addEventListener("input", function () {
+            if (this.value) {
+                preview.src = this.value;
+                preview.style.display = "block";
+            } else {
+                preview.style.display = "none";
+            }
+        });
+    </script>
 {% endblock %}

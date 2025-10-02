@@ -48,12 +48,14 @@ class MangaType extends AbstractType
             ])
             ->add('authors', EntityType::class, [
                 'class' => Author::class,
+                'label' => 'Auteur',
                 'choice_label' => 'name',
                 'multiple' => true,
                 'by_reference' => false,
             ])
             ->add('editor', EntityType::class, [
                 'class' => Editor::class,
+                'label' => 'Editeur',
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir un éditeur',
             ])
