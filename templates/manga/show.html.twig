@@ -52,15 +52,36 @@
                         <a href="{{ path('cart_add', {id: manga.id}) }}"
                         class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
                     </div>
-
-                    <div>
-                        <div class="fs-5">
-                            Mangas similaires :
-                        </div>
-                    </div>
-                
-                 </div>
             </div>
         </div>
+
+        <div class="border border-dark border-2 rounded container my-5 p-3 text-center">
+            <img 
+                class="img-fluid rounded mb-4" 
+                src="/images/same.png" 
+                alt="Mangas similaires"
+                style="max-width: 230px;"
+            >
+
+            {% if similarMangas is not empty %}
+                <div class="row justify-content-center">
+                    {% for similar in similarMangas %}
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
+                            <a class="btn btn-border-none" href="{{ path('app_manga_show', {id: similar.id}) }}">
+                                <img 
+                                    class="rounded border border-dark w-100" 
+                                    style="height: 200px; object-fit: cover;" 
+                                    src="{{ similar.cover }}" 
+                                    alt="{{ similar.title }}" 
+                                />
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Aucun manga similaire trouvé.</p>
+            {% endif %}
+        </div>
+
 </main>
 {% endblock %}

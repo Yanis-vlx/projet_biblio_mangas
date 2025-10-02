@@ -55,13 +55,20 @@ final class MangaController extends AbstractController
 
 
     #[Route('/manga/{id}', name: 'app_manga_show', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function show(?Manga $manga, Request $request): Response
+    public function show(?Manga $manga, Request $request, MangaRepository $mangaRepository): Response
     {
+        if (!$manga) {
+            throw $this->createNotFoundException('Manga non trouvé');
+        }
+
         $from = $request->query->get('from', 'catalogue'); 
+
+        $similarMangas = $mangaRepository->findSimilarMangas($manga);
     
         return $this->render('manga/show.html.twig', [
             'manga' => $manga,
             'from' => $from,
+            'similarMangas' => $similarMangas,
         ]);
     }
 

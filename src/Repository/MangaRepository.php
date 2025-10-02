@@ -53,4 +53,39 @@ class MangaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findSimilarMangas(Manga $manga, int $limit = 5): array
+    {
+        // 1️⃣ Mangas dont le titre est similaire
+        $similarByTitle = $this->createQueryBuilder('m')
+            ->where('m.id != :id')
+            ->andWhere('m.title LIKE :title')
+            ->setParameter('id', $manga->getId())
+            ->setParameter('title', '%'.$manga->getTitle().'%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        // Si on a déjà assez, on retourne
+        if (count($similarByTitle) >= $limit) {
+            return array_slice($similarByTitle, 0, $limit);
+        }
+
+        // 2️⃣ Compléter avec mangas du même genre (si genre non nul)
+        $similarByGenre = [];
+        if ($manga->getGenre() !== null) {
+            $similarByGenre = $this->createQueryBuilder('m')
+                ->where('m.genre = :genre')
+                ->andWhere('m.id != :id')
+                ->setParameter('genre', $manga->getGenre())
+                ->setParameter('id', $manga->getId())
+                ->setMaxResults($limit - count($similarByTitle))
+                ->getQuery()
+                ->getResult();
+        }
+
+        // Combiner les deux listes
+        return array_merge($similarByTitle, $similarByGenre);
+    }
+
 }
