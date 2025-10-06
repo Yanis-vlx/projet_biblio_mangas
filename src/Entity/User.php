@@ -104,9 +104,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Manga>
-     */
     public function getFavoriteMangas(): Collection
     {
         return $this->favoriteMangas;

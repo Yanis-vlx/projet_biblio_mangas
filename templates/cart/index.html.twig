@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<main class="container mt-5 p-3">
+<main class="container">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }}">
@@ -15,7 +15,7 @@
 
     <section class="row justify-content-center">
         <div class="col-12 col-lg-10">
-            <h1 class="border-bottom border-dark border-2 pt-2 pb-2 mb-4">Panier</h1>
+            <h1 class="border-bottom border-dark border-2 pb-2 mb-4">Panier</h1>
 
             {% if data is not empty %}
                 <div class="row">

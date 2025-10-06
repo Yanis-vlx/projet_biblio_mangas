@@ -177,9 +177,7 @@ class Manga
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
+
     public function getFans(): Collection
     {
         return $this->fans;

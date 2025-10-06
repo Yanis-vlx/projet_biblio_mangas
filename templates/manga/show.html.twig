@@ -6,7 +6,7 @@
 
 {% block body %}
 
-<main class="py-5">
+<main >
         <div class="container px-4 px-lg-5 my-5">
        
         <div class="row gx-4 gx-lg-5 align-items-center">
@@ -49,8 +49,26 @@
                                 </button>
                             </a>
                         {% endif %}
-                        <a href="{{ path('cart_add', {id: manga.id}) }}"
-                        class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
+                        {% if app.user %}
+                            <a href="{{ path('cart_add', {id: manga.id}) }}"
+                            class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}"
+                            class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">Ajouter au panier</a>
+                        {% endif %}
+                       
+
+                        {% if app.user %}
+                            {% if app.user.favoriteMangas.contains(manga) %}
+                                <a href="{{ path('favorite_remove', {id: manga.id}) }}"
+                                class="btn btn-dark flex-shrink-0 add-to-cart-btn">❌ Retirer des favoris</a>
+                            {% else %}
+                                <a href="{{ path('favorite_add', {id: manga.id}) }}"
+                                class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">❤️ Ajouter aux favoris</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="btn btn-outline-dark flex-shrink-0 add-to-cart-btn">❤️ Ajouter aux favoris</a>
+                        {% endif %}
                     </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ final class CartController extends AbstractController
     public function index(SessionInterface $session, MangaRepository $mangaRepository) {
         $cart = $session->get('cart', []);
 
-        // On initialise des variables
+        
         $data = [];
         $total = 0;
 
