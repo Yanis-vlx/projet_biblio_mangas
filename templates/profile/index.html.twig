@@ -1,15 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil{% endblock %}
-
 {% block body %}
-    <h1>Bienvenue {{ user.userIdentifier }} </h1>
+    <div class="alert alert-secondary">
+        <strong>Rôle :</strong> Utilisateur
+    </div>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <p>Vous êtes administrateur, voici vos outils :</p>
-        <!-- Contenu spécifique admin -->
+    <h3>Vos informations :</h3>
+    <ul>
+        <li><strong>Email :</strong> {{ user.email }}</li>
+        <li><strong>Date d'inscription :</strong> {{ user.createdAt|date('d/m/Y') }}</li>
+    </ul>
+
+    <h3>Vos mangas favoris :</h3>
+    {% if user.favoriteMangas is not empty %}
+        <div class="row">
+            {% for manga in user.favoriteMangas %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <img src="{{ manga.coverImage }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ manga.title }}</h5>
+                            <p class="card-text">{{ manga.synopsis|length > 100 ? manga.synopsis[:100] ~ '...' : manga.synopsis }}</p>
+                            <a href="/manga/{{ manga.id }}" class="btn btn-primary">Voir le manga</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% else %}
-        <p>Vous êtes un utilisateur simple.</p>
-        <!-- Contenu spécifique user -->
+        <p>Vous n'avez pas encore ajouté de mangas à vos favoris.</p>
     {% endif %}
+
+    <h3>Recommandations pour vous :</h3>
+    {% if recommendedMangas is defined and recommendedMangas|length > 0 %}
+        <ul>
+            {% for manga in recommendedMangas %}
+                <li><a href="/manga/{{ manga.id }}">{{ manga.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune recommandation disponible pour le moment.</p>
+    {% endif %}
+
+    <h3>Historique de lecture :</h3>
+    <a href="/user/{{ user.id }}/history" class="btn btn-outline-secondary">Voir votre historique</a>
 {% endblock %}

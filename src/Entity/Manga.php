@@ -18,12 +18,11 @@ class Manga
     #[ORM\Column]
     private ?int $id = null;
 
-
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-   #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'mangas')]
+    #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'mangas')]
     private Collection $authors;
 
     #[Assert\Isbn(type: 'isbn13')]
@@ -43,7 +42,7 @@ class Manga
     #[Assert\Length(min: 20)]
     #[Assert\NotBlank()]
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $Plot = null;
+    private ?string $plot = null;
 
     #[Assert\NotBlank()]
     #[ORM\Column]
@@ -54,12 +53,16 @@ class Manga
     private ?MangaGenre $genre = null;
 
     #[Assert\NotBlank()]
-    #[ORM\Column]
-    private ?string $Prix = null;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    private ?string $prix = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: "favoriteMangas")]
+    private Collection $fans;
 
     public function __construct()
     {
         $this->authors = new ArrayCollection();
+        $this->fans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,7 +78,6 @@ class Manga
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -88,18 +90,13 @@ class Manga
     {
         if (!$this->authors->contains($author)) {
             $this->authors->add($author);
-           
         }
-
         return $this;
     }
 
     public function removeAuthor(Author $author): static
     {
-        if ($this->authors->removeElement($author)) {
-         
-        }
-
+        $this->authors->removeElement($author);
         return $this;
     }
 
@@ -111,7 +108,6 @@ class Manga
     public function setIsbn(string $isbn): static
     {
         $this->isbn = $isbn;
-
         return $this;
     }
 
@@ -123,7 +119,6 @@ class Manga
     public function setCover(string $cover): static
     {
         $this->cover = $cover;
-
         return $this;
     }
 
@@ -135,19 +130,17 @@ class Manga
     public function setEditor(?Editor $editor): static
     {
         $this->editor = $editor;
-
         return $this;
     }
 
     public function getPlot(): ?string
     {
-        return $this->Plot;
+        return $this->plot;
     }
 
-    public function setPlot(string $Plot): static
+    public function setPlot(string $plot): static
     {
-        $this->Plot = $Plot;
-
+        $this->plot = $plot;
         return $this;
     }
 
@@ -159,32 +152,53 @@ class Manga
     public function setPageNumber(int $pageNumber): static
     {
         $this->pageNumber = $pageNumber;
-
         return $this;
     }
 
-    public function getGenre()
+    public function getGenre(): ?MangaGenre
     {
         return $this->genre;
     }
 
-
-    public function setGenre($genre)
+    public function setGenre(MangaGenre $genre): static
     {
         $this->genre = $genre;
-
         return $this;
     }
 
-    public function getPrix(): ?float
+    public function getPrix(): ?string
     {
-        return $this->Prix;
+        return $this->prix;
     }
 
-    public function setPrix(float $Prix): static
+    public function setPrix(string $prix): static
     {
-        $this->Prix = $Prix;
+        $this->prix = $prix;
+        return $this;
+    }
 
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFans(): Collection
+    {
+        return $this->fans;
+    }
+
+    public function addFan(User $user): self
+    {
+        if (!$this->fans->contains($user)) {
+            $this->fans->add($user);
+            $user->addFavoriteManga($this);
+        }
+        return $this;
+    }
+
+    public function removeFan(User $user): self
+    {
+        if ($this->fans->removeElement($user)) {
+            $user->removeFavoriteManga($this);
+        }
         return $this;
     }
 }
