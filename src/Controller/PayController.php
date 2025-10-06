@@ -48,10 +48,10 @@ final class PayController extends AbstractController
             return $this->redirectToRoute('cart_index');
         }
 
-        // Configurer Stripe
+        
         Stripe::setApiKey($this->clientSecret);
 
-        // Créer la session de paiement
+       
         $checkoutSession = StripeSession::create([
             'line_items' => $lineItems,
             'mode' => 'payment',
