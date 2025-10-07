@@ -59,7 +59,7 @@ class WishlistController extends AbstractController
 
         $favorites = $user->getFavoriteMangas();
 
-        return $this->render('favorite/list.html.twig', [
+        return $this->render('profile/index.html.twig', [
             'favorites' => $favorites
         ]);
     }

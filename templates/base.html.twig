@@ -22,7 +22,7 @@
         </style>
     </head>
     <body id="page-top">
-        <nav class="navbar navbar-expand-lg bg-white navbar-light fixed-top text-black border-bottom border-dark p-0" id="mainNav">
+        <nav class="navbar navbar-expand-lg bg-white navbar-light fixed-top text-black border-bottom border-dark p-0">
             <div class="container px-4">
                 <a class="navbar-brand" href="/"><img src="/images/logo_2.png" height="55"></a>
 
@@ -32,19 +32,33 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item"><a class="btn btn-border-none nav-link" href="/manga"><img class="rounded" style="height: 30px;" src="{{ asset('images/catalogue.png') }}"></a></li>
-                        <li class="nav-item"><a class="btn btn-border-none nav-link" href="/cart"><img class="rounded" style="height: 30px;" src="{{ asset('images/cart.png') }}"></a></li>
+                    {# Desktop : alignement à droite #}
+                    <ul class="navbar-nav ms-auto d-none d-lg-flex align-items-center">
+                        <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="/manga"><img class="rounded" style="height:30px;" src="{{ asset('images/catalogue.png') }}"></a></li>
+                        <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="/cart"><img class="rounded" style="height:30px;" src="{{ asset('images/cart.png') }}"></a></li>
                         {% if app.user %}
-                            <li class="nav-item"><a class="btn btn-border-none nav-link" href="/profile"><img class="rounded" style="height: 30px;" src="{{ asset('images/profil_2.png') }}"></a></li>
-                            <li class="nav-item"><a class="btn btn-border-none nav-link" href="{{ path('app_logout') }}"><img class="rounded" style="height: 30px;" src="{{ asset('images/deconnect.png') }}"></a></li>
+                            <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="/profile"><img class="rounded" style="height:30px;" src="{{ asset('images/profil_2.png') }}"></a></li>
+                            <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="{{ path('app_logout') }}"><img class="rounded" style="height:30px;" src="{{ asset('images/deconnect.png') }}"></a></li>
                         {% else %}
-                            <li class="nav-item"><a class="btn btn-border-none nav-link" href="{{ path('app_login') }}"><img class="rounded" style="height: 30px;" src="{{ asset('images/profile.png') }}"></a></li>
+                            <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="{{ path('app_login') }}"><img class="rounded" style="height:30px;" src="{{ asset('images/profile.png') }}"></a></li>
+                        {% endif %}
+                    </ul>
+
+                    {# Mobile : icônes centrées, toujours visibles #}
+                    <ul class="navbar-nav d-flex d-lg-none flex-row justify-content-center w-100 align-items-center">
+                        <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="/manga"><img class="rounded" style="height:30px;" src="{{ asset('images/catalogue.png') }}"></a></li>
+                        <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="/cart"><img class="rounded" style="height:30px;" src="{{ asset('images/cart.png') }}"></a></li>
+                        {% if app.user %}
+                            <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="/profile"><img class="rounded" style="height:30px;" src="{{ asset('images/profil_2.png') }}"></a></li>
+                            <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="{{ path('app_logout') }}"><img class="rounded" style="height:30px;" src="{{ asset('images/deconnect.png') }}"></a></li>
+                        {% else %}
+                            <li class="nav-item me-2"><a class="btn btn-border-none nav-link" href="{{ path('app_login') }}"><img class="rounded" style="height:30px;" src="{{ asset('images/profile.png') }}"></a></li>
                         {% endif %}
                     </ul>
                 </div>
             </div>
         </nav>
+
 
         <main>
             {% block body %}{% endblock %}
@@ -53,10 +67,9 @@
         <footer class="bg-dark text-white text-center py-3">
             <div class="container">
                 <p class="mb-1">© {{ "now"|date("Y") }} MangaVerse. Tous droits réservés.</p>
-                <p class="small mb-0">
-                    <a href="#" class="text-white text-decoration-none">Mentions légales</a> |
-                    <a href="#" class="text-white text-decoration-none">Contact</a>
-                </p>
+                <span class="small mb-0">
+                    <p>Mentions légales | Contact</p>
+                </span>
             </div>
         </footer>
     </body>
