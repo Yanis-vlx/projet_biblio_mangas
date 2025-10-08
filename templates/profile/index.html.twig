@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-    <h1>Bienvenue {{ user.userIdentifier }} </h1>
-
-    {% if is_granted('ROLE_ADMIN') %}
-        <div class="alert alert-secondary">
-        <strong>Rôle :</strong> Utilisateur
+<div class="container py-4">
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold">Bienvenue {{ user.userIdentifier }}</h1>
+        <span class="badge bg-secondary fs-6">
+            <strong>Rôle :</strong> Utilisateur
+        </span>
     </div>
 
     <h3>Vos informations :</h3>
@@ -21,22 +21,16 @@
             {% for manga in user.favoriteMangas %}
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <img src="{{ manga.cover }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
+                        <img src="{{ manga.coverImage }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ manga.title }}</h5>
+                            <p class="card-text">{{ manga.synopsis|length > 100 ? manga.synopsis[:100] ~ '...' : manga.synopsis }}</p>
                             <a href="/manga/{{ manga.id }}" class="btn btn-primary">Voir le manga</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-    {% else %}
-        <p>Vous n'avez pas encore ajouté de mangas à vos favoris.</p>
-    {% endif %}
-
-    {% else %}
-        <div class="alert alert-secondary">
-        <strong>Rôle :</strong> Utilisateur
     </div>
 
     <h3>Vos informations :</h3>
@@ -51,9 +45,10 @@
             {% for manga in user.favoriteMangas %}
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <img src="{{ manga.cover }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
+                        <img src="{{ manga.coverImage }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ manga.title }}</h5>
+                            <p class="card-text">{{ manga.synopsis|length > 100 ? manga.synopsis[:100] ~ '...' : manga.synopsis }}</p>
                             <a href="/manga/{{ manga.id }}" class="btn btn-primary">Voir le manga</a>
                         </div>
                     </div>
@@ -66,7 +61,3 @@
 
     {% endif %}
 {% endblock %}
-
-
-
-    
