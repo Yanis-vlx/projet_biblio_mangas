@@ -14,30 +14,10 @@
         <li><strong>Email :</strong> {{ user.email }}</li>
         <li><strong>Date d'inscription :</strong> {{ user.createdAt|date('d/m/Y') }}</li>
     </ul>
- <a href="{{ path('app_manga_list') }}" class="btn btn-link w-100 mt-3 text-center">Liste de mangas</a>
-    <h3>Vos mangas favoris :</h3>
-    {% if user.favoriteMangas is not empty %}
-        <div class="row">
-            {% for manga in user.favoriteMangas %}
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100">
-                        <img src="{{ manga.coverImage }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ manga.title }}</h5>
-                            <p class="card-text">{{ manga.synopsis|length > 100 ? manga.synopsis[:100] ~ '...' : manga.synopsis }}</p>
-                            <a href="/manga/{{ manga.id }}" class="btn btn-primary">Voir le manga</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
 
-    <h3>Vos informations :</h3>
-    <ul>
-        <li><strong>Email :</strong> {{ user.email }}</li>
-        <li><strong>Date d'inscription :</strong> {{ user.createdAt|date('d/m/Y') }}</li>
-    </ul>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_manga_list') }}" class="btn btn-link w-100 mt-3 text-center">Liste de mangas</a>
+    {% endif %}
 
     <h3>Vos mangas favoris :</h3>
     {% if user.favoriteMangas is not empty %}
@@ -48,7 +28,9 @@
                         <img src="{{ manga.coverImage }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ manga.title }}</h5>
-                            <p class="card-text">{{ manga.synopsis|length > 100 ? manga.synopsis[:100] ~ '...' : manga.synopsis }}</p>
+                            <p class="card-text">
+                                {{ manga.synopsis|length > 100 ? manga.synopsis[:100] ~ '...' : manga.synopsis }}
+                            </p>
                             <a href="/manga/{{ manga.id }}" class="btn btn-primary">Voir le manga</a>
                         </div>
                     </div>
@@ -58,6 +40,5 @@
     {% else %}
         <p>Vous n'avez pas encore ajouté de mangas à vos favoris.</p>
     {% endif %}
-
-    {% endif %}
+</div>
 {% endblock %}
