@@ -5,7 +5,12 @@
     <div class="text-center mb-4">
         <h1 class="display-5 fw-bold">Bienvenue {{ user.userIdentifier }}</h1>
         <span class="badge bg-secondary fs-6">
-            <strong>Rôle :</strong> Utilisateur
+            <strong>Rôle :</strong> 
+            {% if is_granted('ROLE_ADMIN') %}
+            Administrateur
+            {% else %}
+            Utilisateur
+            {% endif %}
         </span>
     </div>
 
@@ -16,24 +21,25 @@
     </ul>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_manga_list') }}" class="btn btn-link w-100 mt-3 text-center">Liste de mangas</a>
+        <div class="mb-2" style="display: flex; align-items: center; gap: 10px;">
+            <h3>Gestion du catalogue :</h3>
+            <a href="{{ path('app_manga_list') }}" class="btn btn-outline-dark">Liste de mangas</a>
+        </div>
     {% endif %}
 
-    <h3>Vos mangas favoris :</h3>
+    <h3>Liste de souhait :</h3>
     {% if user.favoriteMangas is not empty %}
         <div class="row">
             {% for manga in user.favoriteMangas %}
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100">
-                        <img src="{{ manga.coverImage }}" class="card-img-top" alt="Couverture de {{ manga.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ manga.title }}</h5>
-                            <p class="card-text">
-                                {{ manga.synopsis|length > 100 ? manga.synopsis[:100] ~ '...' : manga.synopsis }}
-                            </p>
-                            <a href="/manga/{{ manga.id }}" class="btn btn-primary">Voir le manga</a>
-                        </div>
-                    </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-4">
+                    <a class="btn btn-border-none" href="{{ path('app_manga_show', {id: manga.id, from: 'catalogue'}) }}">
+                        <img 
+                            class="rounded border border-dark w-100" 
+                            style="height: 300px; object-fit: cover;" 
+                            src="{{ manga.cover }}" 
+                            alt="{{ manga.title }}" 
+                        />
+                    </a>
                 </div>
             {% endfor %}
         </div>
